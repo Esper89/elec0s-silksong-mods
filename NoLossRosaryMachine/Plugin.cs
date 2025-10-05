@@ -4,6 +4,7 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
+using HutongGames.PlayMaker.Actions;
 
 namespace NoLossRosaryMachine
 {
@@ -13,7 +14,6 @@ namespace NoLossRosaryMachine
     {
         private static ConfigEntry<int> rosaryCostDecrease;
         private static new ManualLogSource Logger;
-        private static int defaultRosaryCost = -1;
 
         private void Awake()
         {
@@ -23,31 +23,15 @@ namespace NoLossRosaryMachine
             Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_NAME} is loaded!");
         }
 
-        [HarmonyPatch(typeof(PlayMakerNPC), "SendEvent")]
+        [HarmonyPatch(typeof(DialogueYesNoV2), nameof(DialogueYesNoV2.DoOpen))]
         [HarmonyPrefix]
-        private static void OnStartDialoguePrefix(PlayMakerNPC __instance, ref string eventName)
+        static void PatchStringMachines(DialogueYesNoV2 __instance)
         {
-            // Thanks to https://github.com/BlueRaja/Silksong-Mods/ for making this easy
-            if (__instance.name == "rosary_string_machine" && eventName == "INTERACT")
+            if (__instance.owner.name == "rosary_string_machine")
             {
-                var fsm = Traverse.Create(__instance).Field<PlayMakerFSM>("dialogueFsm").Value;
-                var costReferenceRef = fsm.FsmVariables.ObjectVariables.FirstOrDefault(o => o.Value is CostReference);
-                if (costReferenceRef != null)
-                {
-                    CostReference costReference = (CostReference)costReferenceRef.Value;
-                    if (defaultRosaryCost == -1)
-                    {
-                        defaultRosaryCost = costReference.Value;
-                        Logger.LogInfo($"Stored default cost of rosary string machine: {defaultRosaryCost}");
-                    }
-                    int newCost = defaultRosaryCost - rosaryCostDecrease.Value;
-                    Traverse.Create(costReference).Field<int>("value").Value = newCost;
-                    Logger.LogInfo($"Set cost of rosary string machine to {newCost}");
-                }
-                else
-                {
-                    Logger.LogError("Could not find cost reference for rosary_string_machine");
-                }
+                var defaultRosaryCost = __instance.CurrencyCost.Value;
+                __instance.CurrencyCost.obj = null;
+                __instance.CurrencyCost.value = defaultRosaryCost - rosaryCostDecrease.Value;
             }
         }
     }
