@@ -3,27 +3,19 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <BepInExPluginGuid>com.elec0.nolossrosarymachine</BepInExPluginGuid>
+    <Product>No Loss with Rosary Machine</Product>
+    <Version>1.0.0</Version>
+    <RestoreAdditionalProjectSources>https://nuget.bepinex.dev/v3/index.json</RestoreAdditionalProjectSources>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="0Harmony">
-      <HintPath>D:\Games\steamapps\common\Hollow Knight Silksong\Bepinex\core\0Harmony.dll</HintPath>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>D:\Games\steamapps\common\Hollow Knight Silksong\Hollow Knight Silksong_Data\Managed\Assembly-CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="BepInEx">
-      <HintPath>D:\Games\steamapps\common\Hollow Knight Silksong\Bepinex\core\BepInEx.dll</HintPath>
-    </Reference>
-    <Reference Include="PlayMaker">
-      <HintPath>D:\Games\steamapps\common\Hollow Knight Silksong\Hollow Knight Silksong_Data\Managed\PlayMaker.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>D:\Games\steamapps\common\Hollow Knight Silksong\Hollow Knight Silksong_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <HintPath>D:\Games\steamapps\common\Hollow Knight Silksong\Hollow Knight Silksong_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-    </Reference>
+    <PackageReference Include="UnityEngine.Modules" Version="6000.0.50"/>
+    <PackageReference Include="Silksong.GameLibs" Version="1.1.0-silksong1.0.28650"/>
+    <PackageReference Include="BepInEx.Core" Version="5.4.21"/>
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.1.0"/>
+    <PackageReference Include="HarmonyX" Version="2.9.0"/>
   </ItemGroup>
 
 </Project>

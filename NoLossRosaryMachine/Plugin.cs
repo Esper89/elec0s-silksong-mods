@@ -7,12 +7,6 @@ using HarmonyLib;
 
 namespace NoLossRosaryMachine
 {
-    public static class MyPluginInfo
-    {
-        public const string PLUGIN_GUID = "com.elec0.nolossrosarymachine";
-        public const string PLUGIN_NAME = "No Loss with Rosary Machine";
-        public const string PLUGIN_VERSION = "1.0.0";
-    }
     [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
     [BepInProcess("Hollow Knight Silksong.exe")]
     public class Plugin : BaseUnityPlugin
